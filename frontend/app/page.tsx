@@ -10,7 +10,8 @@ import { GithubIcon } from "@/components/icons";
 
 export default function Home() {
   const getData = async (): Promise<any> => {
-    const response = await axios.get("http://localhost:2020");
+    // API URL = http://api_service:8080
+    const response = await axios.get("http://api_service:8080");
 
     return response.data;
   };
