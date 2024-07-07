@@ -12,6 +12,18 @@ services:
       - api
     environment:
       - NODE_ENV=development
+      - API_URL= http://api_service:8080
+    develop:
+      watch:
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend/next.config.js
+          action: rebuild
+        - path: ./frontend/package-lock.json
+          action: rebuild
+        - path: ./frontend/
+          target: /app/
+          action: sync
 
   api:
     build:
@@ -22,3 +34,12 @@ services:
       - "8080:8080"
     environment:
       - NODE_ENV=development
+    develop:
+      watch:
+        - path: ./api/package.json
+          action: rebuild
+        - path: ./api/package-lock.json
+          action: rebuild
+        - path: ./api/src
+          target: /app/src
+          action: sync
