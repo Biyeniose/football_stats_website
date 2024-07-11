@@ -1,11 +1,21 @@
 import { Request, Response } from "express";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables from .env file
+
+//dotenv.config({ path: ".//config/.env" });
+
+const supabase_url = process.env.SUPABASE_URL;
+const supabase_key = process.env.SUPABASE_KEY;
 
 export const getEPLteams = async (req: Request, res: Response) => {
+  const query =
+    "/rest/v1/football_teams?select=team_name,team_id,logo&league_id=eq.1";
+  const api_url = supabase_url + query + "&apikey=" + supabase_key;
+
   try {
-    const response = await axios.get(
-      "https://mcdnqbhwzywrupgxogol.supabase.co/rest/v1/football_teams?select=team_name,logo&league_id=eq.1&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jZG5xYmh3enl3cnVwZ3hvZ29sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwMTY1MDksImV4cCI6MjAzMjU5MjUwOX0.p1J5s4nPaO6uOQa4TycQdbBnB42FcMsVMtXRYJjfyVg"
-    );
+    const response = await axios.get(api_url);
     res.json(response.data);
   } catch (error) {
     res.status(500).send(error);
@@ -13,10 +23,12 @@ export const getEPLteams = async (req: Request, res: Response) => {
 };
 
 export const getESPteams = async (req: Request, res: Response) => {
+  const query =
+    "/rest/v1/football_teams?select=team_name,team_id,logo&league_id=eq.2";
+  const api_url = supabase_url + query + "&apikey=" + supabase_key;
+
   try {
-    const response = await axios.get(
-      "https://mcdnqbhwzywrupgxogol.supabase.co/rest/v1/football_teams?select=team_name,logo&league_id=eq.2&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jZG5xYmh3enl3cnVwZ3hvZ29sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwMTY1MDksImV4cCI6MjAzMjU5MjUwOX0.p1J5s4nPaO6uOQa4TycQdbBnB42FcMsVMtXRYJjfyVg"
-    );
+    const response = await axios.get(api_url);
     res.json(response.data);
   } catch (error) {
     res.status(500).send(error);
@@ -24,10 +36,12 @@ export const getESPteams = async (req: Request, res: Response) => {
 };
 
 export const getITAteams = async (req: Request, res: Response) => {
+  const query =
+    "/rest/v1/football_teams?select=team_name,team_id,logo&league_id=eq.4";
+  const api_url = supabase_url + query + "&apikey=" + supabase_key;
+
   try {
-    const response = await axios.get(
-      "https://mcdnqbhwzywrupgxogol.supabase.co/rest/v1/football_teams?select=team_name,logo&league_id=eq.4&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jZG5xYmh3enl3cnVwZ3hvZ29sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwMTY1MDksImV4cCI6MjAzMjU5MjUwOX0.p1J5s4nPaO6uOQa4TycQdbBnB42FcMsVMtXRYJjfyVg"
-    );
+    const response = await axios.get(api_url);
     res.json(response.data);
   } catch (error) {
     res.status(500).send(error);
@@ -35,10 +49,25 @@ export const getITAteams = async (req: Request, res: Response) => {
 };
 
 export const getGERteams = async (req: Request, res: Response) => {
+  const query =
+    "/rest/v1/football_teams?select=team_name,team_id,logo&league_id=eq.3";
+  const api_url = supabase_url + query + "&apikey=" + supabase_key;
+
   try {
-    const response = await axios.get(
-      "https://mcdnqbhwzywrupgxogol.supabase.co/rest/v1/football_teams?select=team_name,logo&league_id=eq.3&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jZG5xYmh3enl3cnVwZ3hvZ29sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwMTY1MDksImV4cCI6MjAzMjU5MjUwOX0.p1J5s4nPaO6uOQa4TycQdbBnB42FcMsVMtXRYJjfyVg"
-    );
+    const response = await axios.get(api_url);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+export const getAllLeagues = async (req: Request, res: Response) => {
+  const query =
+    "/rest/v1/football_leagues?select=league_name,league_logo,league_id";
+  const api_url = supabase_url + query + "&apikey=" + supabase_key;
+
+  try {
+    const response = await axios.get(api_url);
     res.json(response.data);
   } catch (error) {
     res.status(500).send(error);

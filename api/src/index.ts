@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import router from "./routes/leagues";
+import record_router from "./routes/record";
 const cors = require("cors");
 const axios = require("axios");
 
@@ -27,6 +28,7 @@ app.get("/teams", async (req: Request, res: Response) => {
 });
 
 app.use("/api", router);
+app.use("/api", record_router);
 
 app.get("*", async (req: Request, res: Response) => {
   console.log(`Received request for: ${req.originalUrl}`);

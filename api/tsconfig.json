@@ -7,7 +7,9 @@
     "skipLibCheck": true, // Skip type checking of declaration files
     "outDir": "./dist", // Redirect output structure to the directory
     "rootDir": "./src", // Specify the root directory of input files
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "typeRoots": ["./node_modules/@types"],
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"], // Include all files in the src folder
   "exclude": ["node_modules"] // Exclude the node_modules directory
