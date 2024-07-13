@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 
+import TopAppsTable from "../../components/data/TopAppsTable";
+
 import { Player } from "@/types";
-import TopAppsTable from "@/components/data/TopAppsTable";
 import { title } from "@/components/primitives";
 
 export default function DataPage() {
@@ -12,7 +13,7 @@ export default function DataPage() {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/stats/liv");
+        const response = await fetch("http://localhost:8080/api/stats/mufc");
         const data = await response.json();
         const playersData = data[0]?.top_apps || [];
 

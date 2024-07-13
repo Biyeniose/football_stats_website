@@ -45,16 +45,18 @@ const TopAppsTable: React.FC<TopAppsTableProps> = ({ players }) => {
     switch (columnKey) {
       case "name":
         return (
-          <User
-            avatarProps={{
-              radius: "lg",
-              src: photo_url.replace("small", "medium"),
-            }}
-            description={position}
-            name={player_name}
-          >
-            {position}
-          </User>
+          <div className="">
+            <User
+              avatarProps={{
+                radius: "lg",
+                src: photo_url.replace("small", "medium"),
+              }}
+              description={position}
+              name={player_name}
+            >
+              {position}
+            </User>
+          </div>
         );
       case "apps":
         return (

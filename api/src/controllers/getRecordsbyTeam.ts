@@ -24,7 +24,7 @@ export const getMUFC_recent = async (req: Request, res: Response) => {
 
 export const getLIV_recent = async (req: Request, res: Response) => {
   const query =
-    "/rest/v1/eng_teams_hist?select=top_apps&team=eq.Liverpool+FC+23%2F24";
+    "/rest/v1/eng_teams_hist?select=top_apps&team=eq.Arsenal+FC+23%2F24";
   const api_url = supabase_url + query + "&apikey=" + supabase_key;
 
   try {
