@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.upper-padding {
-  padding-top: 50px; /* Adjust the value as needed */
+.vert-padding {
+  padding-top: 37px; /* Adjust the value as needed */
+  padding-bottom: 37px;
 }
