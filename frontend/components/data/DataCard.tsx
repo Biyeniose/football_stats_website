@@ -13,7 +13,7 @@ const DataCard: React.FC<DataCardProps> = ({ player }) => {
   const {
     player_name,
     number,
-    ga,
+    g_a,
     goals,
     assists,
     age,
@@ -75,7 +75,7 @@ const DataCard: React.FC<DataCardProps> = ({ player }) => {
           </div>
           <div className="px-2 pt-1 flex flex-col text-xs flex-grow items-start">
             <p>
-              {ga} ({goals}/{assists}) G/A
+              {g_a} ({goals}/{assists}) G/A
             </p>
             <p>{apps} Appearances</p>
           </div>
