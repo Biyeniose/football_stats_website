@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 
 import {
   getEPLteams,
@@ -6,6 +6,7 @@ import {
   getITAteams,
   getGERteams,
   getAllLeagues,
+  getTeamsbyLeagueId,
 } from "../controllers/getTeamsbyLeague";
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.get("/teams/ita", getITAteams);
 router.get("/teams/ger", getGERteams);
 
 router.get("/leagues", getAllLeagues);
+
+router.get("/teams/:id", getTeamsbyLeagueId);
 
 export default router;

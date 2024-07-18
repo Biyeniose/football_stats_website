@@ -1,103 +1,133 @@
 "use client";
 
-import { Button, Accordion, AccordionItem } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@nextui-org/react";
 
 import { title } from "@/components/primitives";
-import LogoImage from "@/components/logos/LogoImage";
+
+type League = {
+  league_name: string;
+  league_id: number;
+  league_logo: string;
+};
+
+type Team = {
+  team_name: string;
+  team_id: number;
+  logo: string;
+};
+
+const fetchTeams = async (leagueId: number): Promise<Team[]> => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/api/teams/${leagueId}`
+    );
+
+    return response.data;
+  } catch (err) {
+    throw new Error("Failed to fetch teams.");
+  }
+};
 
 export default function StandingsPage() {
   const router = useRouter();
+  const [leagues, setLeagues] = useState<League[]>([]);
 
-  const imageUrl =
-    "https://tmssl.akamaized.net/images/wappen/homepageWappen70x70/5679.png?lm=1489787850";
-  const defaultContent =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+  const [teams, setTeams] = useState<{ [key: number]: Team[] }>({});
+
+  //const [teams, setTeams] = useState<Team[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // const fetchTeams = async (): Promise<League[]> => {
+  // try {
+  // const response = await axios.get("http://localhost:8080/api/eng");
+
+  //     return response.data;
+  // } catch (err) {
+  // throw new Error("Failed to fetch leagues.");
+  // }
+  //};
+
+  const fetchTeams = async (leagueId: number): Promise<Team[]> => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/teams/${leagueId}`
+      );
+
+      return response.data;
+    } catch (err) {
+      throw new Error("Failed to fetch teams.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchLeagues = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/leagues");
+
+        setLeagues(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch leagues.");
+        setLoading(false);
+      }
+    };
+
+    fetchLeagues();
+  }, []);
+
+  const handleAccordionItemOpen = async (leagueId: number) => {
+    if (!teams[leagueId]) {
+      try {
+        const teamsData = await fetchTeams(leagueId);
+
+        setTeams((prevTeams) => ({ ...prevTeams, [leagueId]: teamsData }));
+      } catch (err) {
+        //setError(err any);
+      }
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div>
+    <div className="py-4">
       <h1 className={title()}>Standings</h1>
-      <Accordion variant="shadow">
-        <AccordionItem key="1" aria-label="Accordion 1" title="Premier League">
-          <div className="flex flex-wrap gap-4 items-center py-6">
-            <Button
-              color="default"
-              size="lg"
-              startContent={<LogoImage url={imageUrl} />}
-              onClick={() => router.push("/data")}
-            />
-            <Button color="primary">Primary</Button>
-            <Button color="secondary">Secondary</Button>
-            <Button color="success">Success</Button>
-            <Button color="warning">Warning</Button>
-            <Button color="danger">Danger</Button>
-          </div>
-        </AccordionItem>
-        <AccordionItem key="2" aria-label="Accordion 2" title="Accordion 2">
-          <Table hideHeader aria-label="Example static collection table">
-            <TableHeader>
-              <TableColumn>NAME</TableColumn>
-              <TableColumn>STATUS</TableColumn>
-            </TableHeader>
-            <TableBody>
-              <TableRow key="1">
-                <TableCell>Arsenal FC</TableCell>
-                <TableCell>
-                  {
-                    <Button
-                      color="default"
-                      size="lg"
-                      startContent={<LogoImage url={imageUrl} />}
-                      onClick={() => router.push("/data")}
+      <div className="py-4">
+        <Accordion variant="shadow">
+          {leagues.map((league) => (
+            <AccordionItem
+              key={league.league_id}
+              title={league.league_name}
+              onClick={() => handleAccordionItemOpen(league.league_id)}
+            >
+              {teams[league.league_id] ? (
+                teams[league.league_id].map((team) => (
+                  <div key={team.team_id} className="flex items-center py-2">
+                    <img
+                      alt={team.team_name}
+                      className="w-10 h-10 mr-4"
+                      src={team.logo || "https://via.placeholder.com/70"}
                     />
-                  }
-                </TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>Zoey Lang</TableCell>
-                <TableCell>
-                  {
-                    <Button
-                      color="default"
-                      size="lg"
-                      startContent={<LogoImage url={imageUrl} />}
-                      onClick={() => router.push("/data")}
-                    />
-                  }
-                </TableCell>
-              </TableRow>
-              <TableRow key="3">
-                <TableCell>Jane Fisher</TableCell>
-                <TableCell>
-                  {
-                    <Button
-                      color="default"
-                      size="lg"
-                      startContent={<LogoImage url={imageUrl} />}
-                      onClick={() => router.push("/data")}
-                    />
-                  }
-                </TableCell>
-              </TableRow>
-              <TableRow key="4">
-                <TableCell>William Howard</TableCell>
-                <TableCell>Vacation</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </AccordionItem>
-        <AccordionItem key="3" aria-label="Accordion 3" title="Accordion 3">
-          {defaultContent}
-        </AccordionItem>
-      </Accordion>
+                    <span>{team.team_name}</span>
+                  </div>
+                ))
+              ) : (
+                <div>Loading teams...</div>
+              )}
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
     </div>
   );
 }
